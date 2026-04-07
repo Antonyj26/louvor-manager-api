@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.almeida.louvor_manager_api.dto.UserDTO;
-import br.com.almeida.louvor_manager_api.entities.User;
+import br.com.almeida.louvor_manager_api.dto.UserResponseDTO;
 import br.com.almeida.louvor_manager_api.services.UserService;
 import jakarta.validation.Valid;
 
@@ -29,15 +29,13 @@ public class UserController {
 	
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
-	public List<User> findAll(){
-		return userService.findAll();
+	public ResponseEntity<List<UserResponseDTO>> findAll(){
+		return ResponseEntity.ok(userService.findAll());
 	}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<User> saveUser(@RequestBody @Valid UserDTO userDTO) {
-		User user = userService.save(userDTO);
-		
-		return ResponseEntity.ok(user);
+	public ResponseEntity<UserResponseDTO> saveUser(@RequestBody @Valid UserDTO userDTO) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(userDTO));
 	}
 }

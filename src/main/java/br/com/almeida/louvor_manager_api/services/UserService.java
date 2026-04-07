@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.almeida.louvor_manager_api.dto.UserDTO;
+import br.com.almeida.louvor_manager_api.dto.UserResponseDTO;
 import br.com.almeida.louvor_manager_api.entities.User;
 import br.com.almeida.louvor_manager_api.entities.enums.UserRole;
 import br.com.almeida.louvor_manager_api.exception.AppError;
@@ -22,11 +23,11 @@ public class UserService {
 		this.passwordEncoder = passwordEncoder;
 	}
 	
-	public List<User> findAll(){
-		return userRepository.findAll();
+	public List<UserResponseDTO> findAll(){
+		return userRepository.findAll().stream().map(UserResponseDTO::new).toList();
 	}
 	
-	public User save(UserDTO userDTO) {
+	public UserResponseDTO save(UserDTO userDTO) {
 		
 		if(userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
 			throw new AppError("Email já cadastrado");
@@ -37,13 +38,8 @@ public class UserService {
 		user.setName(userDTO.getName());
 		user.setEmail(userDTO.getEmail());
 		user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+		user.setRole(userDTO.getRole() !=null ? userDTO.getRole(): UserRole.MEMBER);
 		
-		if(userDTO.getRole() !=null) {
-			user.setRole(userDTO.getRole());
-		} else {
-			user.setRole(UserRole.MEMBER);
-		}
-		
-		return userRepository.save(user);
+		return new UserResponseDTO(userRepository.save(user));
 	}
 }
