@@ -2,6 +2,8 @@ package br.com.almeida.louvor_manager_api.entities;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.almeida.louvor_manager_api.entities.enums.InstrumentType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -23,6 +25,7 @@ public class Scale {
 
 	@ManyToOne
 	@JoinColumn(name = "event_id")
+	@JsonIgnore
 	private Event event;
 
 	@ManyToOne

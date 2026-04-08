@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public class UserDTO {
+	
+	
 
 	@NotBlank(message = "Nome é obrigatório")
 	@Size(min = 3, message = "Nome muito curto")

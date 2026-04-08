@@ -1,4 +1,4 @@
-package br.com.almeida.louvor_manager_api.entities;
+package br.com.almeida.louvor_manager_api.dto;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -7,48 +7,21 @@ import java.util.List;
 import java.util.UUID;
 
 import br.com.almeida.louvor_manager_api.entities.enums.EventType;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 
-@Entity
-@Table(name = "tb_event")
-public class Event {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.UUID)
+public class EventDTO {
+	
 	private UUID id;
-
-	@Column(nullable = false)
 	private String name;
-
-	@Column(nullable = false)
 	private LocalDate date;
-
-	@Column(nullable = false)
 	private LocalTime time;
-
-	@Enumerated(EnumType.STRING)
 	private EventType type;
-
-	@Column(columnDefinition = "TEXT")
 	private String description;
+	private List<ScaleDTO> scales = new ArrayList<>();
 
-	@OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
-	private List<Scale> scales = new ArrayList<>();
-
-	public Event() {
+	public EventDTO() {
 	}
 
-	public Event(UUID id, String name, LocalDate date, LocalTime time, EventType type, String description,
-			List<Scale> scales) {
+	public EventDTO(UUID id, String name, LocalDate date, LocalTime time, EventType type, String description, List<ScaleDTO> scales) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -107,7 +80,7 @@ public class Event {
 		this.description = description;
 	}
 
-	public List<Scale> getScales() {
+	public List<ScaleDTO> getScales() {
 		return scales;
 	}
 

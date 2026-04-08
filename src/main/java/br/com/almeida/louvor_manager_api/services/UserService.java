@@ -24,6 +24,7 @@ public class UserService {
 	}
 	
 	public List<UserResponseDTO> findAll(){
+		
 		return userRepository.findAll().stream().map(UserResponseDTO::new).toList();
 	}
 	
