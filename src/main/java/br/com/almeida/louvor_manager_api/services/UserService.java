@@ -1,6 +1,7 @@
 package br.com.almeida.louvor_manager_api.services;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -42,5 +43,14 @@ public class UserService {
 		user.setRole(userDTO.getRole() !=null ? userDTO.getRole(): UserRole.MEMBER);
 		
 		return new UserResponseDTO(userRepository.save(user));
+	}
+	
+	
+	public void delete(UUID id) {
+		
+		User user = userRepository.findById(id).orElseThrow(() -> new AppError("Usuário não encontrado"));
+		
+		userRepository.delete(user);
+		
 	}
 }

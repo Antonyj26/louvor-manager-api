@@ -3,6 +3,7 @@ package br.com.almeida.louvor_manager_api.services;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.almeida.louvor_manager_api.dto.EventDTO;
 import br.com.almeida.louvor_manager_api.dto.ScaleDTO;
@@ -21,57 +22,59 @@ public class EventService {
 	private final EventRepository eventRepository;
 	private final UserRepository userRepository;
 	private final ScaleRepository scaleRepository;
-	
-	public EventService(EventRepository eventRepository, UserRepository userRepository, ScaleRepository scaleRepository ) {
+
+	public EventService(EventRepository eventRepository, UserRepository userRepository,
+			ScaleRepository scaleRepository) {
 		this.eventRepository = eventRepository;
 		this.userRepository = userRepository;
 		this.scaleRepository = scaleRepository;
 	}
-	
+
+	@Transactional(readOnly = true)
 	public List<EventDTO> findAll() {
-		
+
 		List<Event> listEvent = eventRepository.findAll();
 
-		if(listEvent.size() == 0 ) {
+		if (listEvent.size() == 0) {
 			throw new AppError("Nenhum evento encontrado");
 		}
-		
+
 		return EventConverter.converter(listEvent);
-		
+
 	}
-	
+
 	public Event save(EventDTO eventDTO) {
-		
+
 		Event event = new Event();
-		
+
 		event.setDate(eventDTO.getDate());
 		event.setTime(eventDTO.getTime());
 		event.setDescription(eventDTO.getDescription());
 		event.setName(eventDTO.getName());
 		event.setType(eventDTO.getType());
-		
+
 		Event eventSave = eventRepository.save(event);
-		
-		if(eventDTO.getScales() != null) {
-			for(ScaleDTO sDTO : eventDTO.getScales()) {
-				
+
+		if (eventDTO.getScales() != null) {
+			for (ScaleDTO sDTO : eventDTO.getScales()) {
+
 				Scale scale = new Scale();
 				scale.setEvent(eventSave);
 				scale.setFunction(sDTO.getFunction());
-				
+
 				User user = userRepository.findById(sDTO.getUserId()).orElse(null);
-				
+
 				scale.setUser(user);
-				
+
 				scaleRepository.save(scale);
-				
+
 				eventSave.getScales().add(scale);
-				
+
 			}
 		}
-	
-		
+
 		return eventSave;
-		
+
 	}
+
 }

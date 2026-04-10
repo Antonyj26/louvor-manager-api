@@ -18,6 +18,9 @@ public class GlobalExceptionHandler {
     // Captura o AppError (ex: email duplicado)
     @ExceptionHandler(AppError.class)
     public ResponseEntity<Map<String, Object>> handleAppError(AppError ex, HttpServletRequest request) {
+    	
+    	ex.printStackTrace();
+    	
         return buildResponse(HttpStatus.CONFLICT, ex.getMessage(), request.getRequestURI());
     }
 
@@ -25,6 +28,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidation(MethodArgumentNotValidException ex, HttpServletRequest request) {
         Map<String, String> fieldErrors = new HashMap<>();
+        
+        ex.printStackTrace();
 
         ex.getBindingResult().getFieldErrors()
                 .forEach(err -> fieldErrors.put(err.getField(), err.getDefaultMessage()));
@@ -42,6 +47,7 @@ public class GlobalExceptionHandler {
     // Fallback para qualquer outra exceção não tratada
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleGeneric(Exception ex, HttpServletRequest request) {
+    	ex.printStackTrace();
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno do servidor", request.getRequestURI());
     }
 

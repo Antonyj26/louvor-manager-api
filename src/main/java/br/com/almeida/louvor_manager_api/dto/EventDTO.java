@@ -84,4 +84,10 @@ public class EventDTO {
 		return scales;
 	}
 
+	public void setScales(List<ScaleDTO> scales) {
+		this.scales = scales;
+	}
+	
+	
+
 }
