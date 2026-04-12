@@ -62,7 +62,7 @@ public class EventService {
 				scale.setEvent(eventSave);
 				scale.setFunction(sDTO.getFunction());
 
-				User user = userRepository.findById(sDTO.getUserId()).orElse(null);
+				User user = userRepository.findById(sDTO.getUserId()).orElseThrow(() -> new AppError("Usuário não encontrado"));
 
 				scale.setUser(user);
 

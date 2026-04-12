@@ -5,6 +5,7 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.almeida.louvor_manager_api.entities.enums.InstrumentType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -28,8 +29,10 @@ public class Scale {
 	@JsonIgnore
 	private Event event;
 
+
 	@ManyToOne
 	@JoinColumn(name = "user_id")
+	@Column(nullable = false)
 	private User user;
 
 	@Enumerated(EnumType.STRING)
