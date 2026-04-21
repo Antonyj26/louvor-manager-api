@@ -2,6 +2,7 @@ package br.com.almeida.louvor_manager_api.services;
 
 import java.util.UUID;
 
+import br.com.almeida.louvor_manager_api.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.com.almeida.louvor_manager_api.entities.Scale;
@@ -18,7 +19,7 @@ public class ScaleService {
 	}
 
 	public void deleteScale(UUID id) {
-		Scale scale = scaleRepository.findById(id).orElseThrow(() -> new AppError("Escala não encotrada"));
+		Scale scale = scaleRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Escala não encotrada"));
 
 		scaleRepository.delete(scale);
 

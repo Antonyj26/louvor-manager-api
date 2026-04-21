@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import br.com.almeida.louvor_manager_api.services.AuthorizationService;
+import br.com.almeida.louvor_manager_api.services.security.AuthorizationService;
 import br.com.almeida.louvor_manager_api.services.security.SecurityFilter;
 
 @Configuration
@@ -36,6 +36,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/v1/auth/login").permitAll() // Login é aberto
                         .requestMatchers(HttpMethod.POST, "/v1/users").permitAll()      // Cadastro de usuário é aberto
                         .requestMatchers(HttpMethod.POST, "/v1/events").hasRole("ADMIN") // Só ADMIN cria evento
+                        .requestMatchers(HttpMethod.GET, "/v1/users").hasRole("ADMIN")
                         .anyRequest().authenticated() // Todo o resto precisa de token
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) // Coloca filtro antes do padrão do Spring

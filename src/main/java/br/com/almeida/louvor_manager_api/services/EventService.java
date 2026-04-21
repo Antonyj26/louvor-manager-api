@@ -2,6 +2,7 @@ package br.com.almeida.louvor_manager_api.services;
 
 import java.util.List;
 
+import br.com.almeida.louvor_manager_api.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,7 +37,7 @@ public class EventService {
 		List<Event> listEvent = eventRepository.findAll();
 
 		if (listEvent.size() == 0) {
-			throw new AppError("Nenhum evento encontrado");
+			throw new ResourceNotFoundException("Nenhum evento encontrado");
 		}
 
 		return EventConverter.converter(listEvent);

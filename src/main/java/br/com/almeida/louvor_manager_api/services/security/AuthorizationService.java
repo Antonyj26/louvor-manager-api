@@ -1,4 +1,4 @@
-package br.com.almeida.louvor_manager_api.services;
+package br.com.almeida.louvor_manager_api.services.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
