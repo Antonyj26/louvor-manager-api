@@ -41,7 +41,7 @@ public class Event {
 	@Column(columnDefinition = "TEXT")
 	private String description;
 
-	@OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Scale> scales = new ArrayList<>();
 
 	public Event() {

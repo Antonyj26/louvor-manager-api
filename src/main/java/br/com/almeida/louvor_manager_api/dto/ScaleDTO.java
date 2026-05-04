@@ -9,16 +9,18 @@ public class ScaleDTO {
 	private UUID id;
 	private UUID eventId;
 	private UUID userId;
+    private String userName;
 	private InstrumentType function;
 
 	public ScaleDTO() {
 	}
 
-	public ScaleDTO(UUID id, UUID eventId, UUID userId, InstrumentType function) {
+	public ScaleDTO(UUID id, UUID eventId, UUID userId, String userName, InstrumentType function) {
 		super();
 		this.id = id;
 		this.eventId = eventId;
 		this.userId = userId;
+        this.userName = userName;
 		this.function = function;
 	}
 
@@ -46,7 +48,15 @@ public class ScaleDTO {
 		this.userId = userId;
 	}
 
-	public InstrumentType getFunction() {
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public InstrumentType getFunction() {
 		return function;
 	}
 

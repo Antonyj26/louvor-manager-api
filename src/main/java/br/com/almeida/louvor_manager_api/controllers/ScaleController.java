@@ -2,6 +2,7 @@ package br.com.almeida.louvor_manager_api.controllers;
 
 import java.util.UUID;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,10 +21,11 @@ public class ScaleController {
 	}
 
 	@DeleteMapping(value = "/{id}")
-	public void delete(@PathVariable UUID id) {
+	public ResponseEntity<String> delete(@PathVariable UUID id) {
 		
 		scaleService.deleteScale(id);
-		
+
+        return ResponseEntity.ok("Escalado removido com sucesso!");
 	}
 	
 }

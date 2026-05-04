@@ -32,6 +32,7 @@ public class EventConverter {
                     sDTO.setId(s.getId());
                     sDTO.setFunction(s.getFunction());
                     sDTO.setUserId(s.getUser().getId());
+                    sDTO.setUserName(s.getUser().getName());
                     sDTO.setEventId(s.getEvent().getId());
                     
                     escalasDTO.add(sDTO);

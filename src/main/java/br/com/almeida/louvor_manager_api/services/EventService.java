@@ -1,6 +1,7 @@
 package br.com.almeida.louvor_manager_api.services;
 
 import java.util.List;
+import java.util.UUID;
 
 import br.com.almeida.louvor_manager_api.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,7 @@ public class EventService {
 
 		List<Event> listEvent = eventRepository.findAll();
 
-		if (listEvent.size() == 0) {
+		if (listEvent.isEmpty()) {
 			throw new ResourceNotFoundException("Nenhum evento encontrado");
 		}
 
@@ -77,5 +78,16 @@ public class EventService {
 		return eventSave;
 
 	}
+
+    @Transactional
+    public void delete(UUID id){
+
+        if(!eventRepository.existsById(id)){
+            throw new ResourceNotFoundException("Evento não encotrado");
+        }
+
+        eventRepository.deleteById(id);
+
+    }
 
 }

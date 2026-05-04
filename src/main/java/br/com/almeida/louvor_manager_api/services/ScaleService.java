@@ -19,10 +19,11 @@ public class ScaleService {
 	}
 
 	public void deleteScale(UUID id) {
-		Scale scale = scaleRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Escala não encotrada"));
+		if(!scaleRepository.existsById(id)){
+            throw  new ResourceNotFoundException("Escalado não encotnrado!");
+        }
 
-		scaleRepository.delete(scale);
-
+		scaleRepository.deleteById(id);
 	}
 
 }
