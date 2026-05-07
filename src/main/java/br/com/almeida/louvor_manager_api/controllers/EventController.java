@@ -3,6 +3,7 @@ package br.com.almeida.louvor_manager_api.controllers;
 import java.util.List;
 import java.util.UUID;
 
+import br.com.almeida.louvor_manager_api.dto.ResponseDTO.EventResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,12 +25,12 @@ public class EventController {
 	
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
-	public List<EventDTO> findAll(){
+	public List<EventResponseDTO> findAll(){
 		return eventService.findAll();
 	}
 	
 	@PostMapping
-	public ResponseEntity<Event> save(@RequestBody @Valid EventDTO eventDTO){
+	public ResponseEntity<EventResponseDTO> save(@RequestBody @Valid EventDTO eventDTO){
 	
 		return ResponseEntity.status(HttpStatus.CREATED).body(eventService.save(eventDTO));
 		
@@ -37,10 +38,15 @@ public class EventController {
 	}
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable UUID id){
+    public ResponseEntity<Void> delete(@PathVariable @Valid UUID id){
         eventService.delete(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping
+    public ResponseEntity<EventResponseDTO> edit(@RequestBody @Valid EventDTO eventDTO){
+        return ResponseEntity.ok(eventService.edit(eventDTO));
     }
 
 }

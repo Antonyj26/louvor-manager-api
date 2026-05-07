@@ -7,13 +7,23 @@ import java.util.List;
 import java.util.UUID;
 
 import br.com.almeida.louvor_manager_api.entities.enums.EventType;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class EventDTO {
 	
 	private UUID id;
+    @NotBlank(message = "Nome é obrigatório.")
+    @Size(min = 3, message = "Nome muito curto")
 	private String name;
+    @NotNull(message = "A data é obrigatória")
 	private LocalDate date;
+
+    @NotNull(message = "O horário é obrigatório")
 	private LocalTime time;
+
+    @NotNull(message = "O tipo de evento é obrigatório")
 	private EventType type;
 	private String description;
 	private List<ScaleDTO> scales = new ArrayList<>();

@@ -7,7 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.almeida.louvor_manager_api.dto.UserDTO;
-import br.com.almeida.louvor_manager_api.dto.UserResponseDTO;
+import br.com.almeida.louvor_manager_api.dto.ResponseDTO.UserResponseDTO;
 import br.com.almeida.louvor_manager_api.entities.User;
 import br.com.almeida.louvor_manager_api.entities.enums.UserRole;
 import br.com.almeida.louvor_manager_api.exception.AppError;

@@ -3,13 +3,18 @@ package br.com.almeida.louvor_manager_api.dto;
 import java.util.UUID;
 
 import br.com.almeida.louvor_manager_api.entities.enums.InstrumentType;
+import jakarta.validation.constraints.NotBlank;
 
 public class ScaleDTO {
 
 	private UUID id;
 	private UUID eventId;
 	private UUID userId;
+
+    @NotBlank(message = "Adicione pelo menos um membro na escala")
     private String userName;
+
+    @NotBlank(message = "Selecione ao menos uma função para esse membro")
 	private InstrumentType function;
 
 	public ScaleDTO() {

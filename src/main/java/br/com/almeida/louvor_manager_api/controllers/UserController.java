@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.almeida.louvor_manager_api.dto.UserDTO;
-import br.com.almeida.louvor_manager_api.dto.UserResponseDTO;
+import br.com.almeida.louvor_manager_api.dto.ResponseDTO.UserResponseDTO;
 import br.com.almeida.louvor_manager_api.services.UserService;
 import jakarta.validation.Valid;
 

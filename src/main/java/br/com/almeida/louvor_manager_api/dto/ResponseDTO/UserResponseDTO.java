@@ -1,4 +1,4 @@
-package br.com.almeida.louvor_manager_api.dto;
+package br.com.almeida.louvor_manager_api.dto.ResponseDTO;
 
 import java.util.UUID;
 

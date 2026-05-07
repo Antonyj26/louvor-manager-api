@@ -3,6 +3,7 @@ package br.com.almeida.louvor_manager_api.services;
 import java.util.List;
 import java.util.UUID;
 
+import br.com.almeida.louvor_manager_api.dto.ResponseDTO.EventResponseDTO;
 import br.com.almeida.louvor_manager_api.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,11 +13,9 @@ import br.com.almeida.louvor_manager_api.dto.ScaleDTO;
 import br.com.almeida.louvor_manager_api.entities.Event;
 import br.com.almeida.louvor_manager_api.entities.Scale;
 import br.com.almeida.louvor_manager_api.entities.User;
-import br.com.almeida.louvor_manager_api.exception.AppError;
 import br.com.almeida.louvor_manager_api.repositories.EventRepository;
 import br.com.almeida.louvor_manager_api.repositories.ScaleRepository;
 import br.com.almeida.louvor_manager_api.repositories.UserRepository;
-import br.com.almeida.louvor_manager_api.services.converter.EventConverter;
 
 @Service
 public class EventService {
@@ -33,7 +32,7 @@ public class EventService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<EventDTO> findAll() {
+	public List<EventResponseDTO> findAll() {
 
 		List<Event> listEvent = eventRepository.findAll();
 
@@ -41,11 +40,11 @@ public class EventService {
 			throw new ResourceNotFoundException("Nenhum evento encontrado");
 		}
 
-		return EventConverter.converter(listEvent);
+		return listEvent.stream().map(EventResponseDTO::new).toList();
 
 	}
 
-	public Event save(EventDTO eventDTO) {
+	public EventResponseDTO save(EventDTO eventDTO) {
 
 		Event event = new Event();
 
@@ -64,7 +63,7 @@ public class EventService {
 				scale.setEvent(eventSave);
 				scale.setFunction(sDTO.getFunction());
 
-				User user = userRepository.findById(sDTO.getUserId()).orElseThrow(() -> new AppError("Usuário não encontrado"));
+				User user = userRepository.findById(sDTO.getUserId()).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
 
 				scale.setUser(user);
 
@@ -75,7 +74,8 @@ public class EventService {
 			}
 		}
 
-		return eventSave;
+
+		return new EventResponseDTO(eventSave);
 
 	}
 
@@ -88,6 +88,36 @@ public class EventService {
 
         eventRepository.deleteById(id);
 
+    }
+
+    @Transactional
+    public EventResponseDTO edit(EventDTO eventDTO){
+        Event event = eventRepository.findById(eventDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("Evento não econtrado"));
+
+        event.setDate(eventDTO.getDate());
+        event.setTime(eventDTO.getTime());
+        event.setDescription(eventDTO.getDescription());
+        event.setName(eventDTO.getName());
+        event.setType(eventDTO.getType());
+
+        if(eventDTO.getScales() != null){
+            event.getScales().clear();
+
+            for(ScaleDTO scaleDTO: eventDTO.getScales()){
+                User user = userRepository.findById((scaleDTO.getUserId())).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
+
+                Scale newScale = new Scale();
+                newScale.setUser(user);
+                newScale.setFunction(scaleDTO.getFunction());
+                newScale.setEvent(event);
+
+                event.getScales().add(newScale);
+            }
+        }
+
+        Event eventSaved = eventRepository.save(event);
+
+        return new EventResponseDTO(eventSaved);
     }
 
 }

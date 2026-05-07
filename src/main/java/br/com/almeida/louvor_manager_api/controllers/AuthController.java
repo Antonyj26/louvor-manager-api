@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.almeida.louvor_manager_api.dto.LoginDTO;
-import br.com.almeida.louvor_manager_api.dto.LoginResponseDTO;
+import br.com.almeida.louvor_manager_api.dto.ResponseDTO.LoginResponseDTO;
 import br.com.almeida.louvor_manager_api.services.AuthService;
 import jakarta.validation.Valid;
 
